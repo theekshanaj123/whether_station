@@ -26,6 +26,7 @@ DHT dht(DHTPIN, DHTTYPE);
 long duration;
 float distance;
 boolean setButton = false;
+int bridgeHeight = 30;
 
 void readDistance();
 
@@ -75,7 +76,7 @@ void loop()
     Serial.print("Button  :");
     Serial.println(buttonState);
     setButton = !setButton;
-    delay(50); 
+    delay(50);
   }
 
   Serial.print("Set Button  :");
@@ -108,20 +109,22 @@ void loop()
 
   readDistance();
 
-  if (distance <= 10)
-  {
-    tone(BUZZER_PIN, 500); // 1kHz beep
-    delay(100);
-    noTone(BUZZER_PIN);
-    display.clearDisplay();
-    display.setTextSize(2);
-    display.setTextColor(SSD1306_WHITE);
-    display.setCursor(1, 25);
-    display.println(F("Emergency! "));
-    display.display();
-    display.clearDisplay();
-  }
-  else if (setButton)
+  // if (distance <= 10)
+  // {
+  //   tone(BUZZER_PIN, 500); // 1kHz beep
+  //   delay(100);
+  //   noTone(BUZZER_PIN);
+  //   display.clearDisplay();
+  //   display.setTextSize(2);
+  //   display.setTextColor(SSD1306_WHITE);
+  //   display.setCursor(1, 25);
+  //   display.println(F("Emergency! "));
+  //   display.display();
+  //   display.clearDisplay();
+  // }
+  // else
+
+  if (setButton)
   {
     display.clearDisplay();
     display.setTextSize(1);
@@ -176,7 +179,8 @@ void readDistance()
   // Calculate distance in cm
   distance = duration * 0.034 / 2;
 
-  
+  distance = bridgeHeight - distance;
+
   // Serial.print("Distance: ");
   // Serial.print(distance);
   // Serial.println(" cm");
